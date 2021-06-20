@@ -1,0 +1,9 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface Codec {
+    + encode()
+    + decode()
+}
+
+@enduml

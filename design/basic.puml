@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class HaloRpcServer{
+    + export(clazz:Class,impl:Object)
+    + export(clazz:Class,impl:Object,aliasName:String)
+}
+
+class HaloRpcClient{
+    + call()
+}
+
+class RPCInvoker{
+
+}
+
+class HaloServerConfig
+
+class HaloClientConfig
+
+HaloRpcServer --> HaloServerConfig
+
+HaloRpcClient --> HaloClientConfig
+
+
+
+@enduml

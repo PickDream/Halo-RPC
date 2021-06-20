@@ -1,2 +1,4 @@
 # Halo-RPC
-A Simple RPC Framework Written By Java
+    一个学习性质的Java RPC框架的实现
+
+
