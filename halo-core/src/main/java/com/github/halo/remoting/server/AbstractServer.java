@@ -24,4 +24,9 @@ public abstract class AbstractServer implements EndPoint {
     protected abstract void doOpen() throws Throwable;
 
     protected abstract void doClose() throws Throwable;
+
+//  getBindAddress
+
+
+
 }

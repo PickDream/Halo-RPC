@@ -6,4 +6,24 @@ interface Codec {
     + decode()
 }
 
+class ProtoBuffCodec
+
+class HaloCodecAdapter {
+    - encoder:ChannelHandler
+    - decoder:ChannelHandler
+    - codec:Codec
+}
+
+class InternelEncoder
+
+class InternelDecoder
+
+HaloCodecAdapter --> InternelDecoder
+HaloCodecAdapter --> InternelEncoder
+
+ProtoBuffCodec --|> Codec
+
+HaloCodecAdapter --> Codec
+
+
 @enduml
