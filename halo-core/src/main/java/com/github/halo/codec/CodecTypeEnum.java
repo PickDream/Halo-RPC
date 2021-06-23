@@ -1,16 +1,16 @@
-package com.github.halo.common.serialization;
+package com.github.halo.codec;
 
 /**
  * 序列化方式枚举
  * @author mason.lu 2021/6/22
  */
-public enum SerializationTypeEnum {
+public enum CodecTypeEnum {
     HESSIAN(0x10),
     PROTOBUF(0x20),
     JSON(0x30);
 
     private final int type;
-    SerializationTypeEnum(int type){
+    CodecTypeEnum(int type){
         this.type = type;
     }
 
@@ -18,8 +18,8 @@ public enum SerializationTypeEnum {
         return type;
     }
 
-    public static SerializationTypeEnum findByType(byte serializationType) {
-        for (SerializationTypeEnum typeEnum : SerializationTypeEnum.values()) {
+    public static CodecTypeEnum findByType(byte serializationType) {
+        for (CodecTypeEnum typeEnum : CodecTypeEnum.values()) {
             if (typeEnum.getType() == serializationType) {
                 return typeEnum;
             }

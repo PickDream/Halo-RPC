@@ -1,5 +1,7 @@
 package com.github.halo.codec;
 
+import com.github.halo.common.packet.HaloRpcPacket;
+import com.github.halo.common.packet.PacketHeader;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -29,12 +31,20 @@ public class HaloCodecAdapter {
         return this.decodeChannelHandler;
     }
 
-    private class InternalEncoder extends MessageToByteEncoder{
+    public HaloCodecAdapter(String codecType){
+        this.codec = CodecFactory.getRpcCodec(codecType);
+    }
+
+    private class InternalEncoder extends MessageToByteEncoder<HaloRpcPacket<Object>>{
         @Override
-        protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf byteBuf) throws Exception {
-            Channel channel = channelHandlerContext.channel();
-//            test
-            // BUFFER
+        protected void encode(ChannelHandlerContext channelHandlerContext, HaloRpcPacket<Object> packet, ByteBuf byteBuf) throws Exception {
+            PacketHeader header = packet.getHeader();
+            byteBuf.writeShort(header.getMagic());
+            byteBuf.writeByte(header.getVersion());
+            byteBuf.writeByte(header.getSerialType());
+            byteBuf.writeByte(header.getMsgType());
+            byteBuf.writeByte(header.getStatus());
+            byteBuf.writeLong(header.getRequestId());
 
         }
     }

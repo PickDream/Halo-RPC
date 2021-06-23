@@ -1,12 +1,11 @@
 package com.github.halo.remoting.server;
 
+import com.github.halo.codec.HaloCodecAdapter;
 import com.github.halo.common.URL;
+import com.github.halo.common.constant.ProtocolConstant;
 import com.github.halo.utils.NettyEventLoopFactory;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -45,9 +44,13 @@ public class HaloRpcServer extends AbstractServer {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        
+                        ChannelPipeline pipeline = socketChannel.pipeline();
+                        HaloCodecAdapter adapter = new HaloCodecAdapter(getCodec(),getURL());
+                        pipeline.addLast(ProtocolConstant.DECODER_NAME,adapter.getDecodeHandler())
+                                .addLast(ProtocolConstant.ENCODER_NAME,adapter.getEncodeHandler());
+
                     }
-                });
+                })
         ChannelFuture channelFuture = serverBootstrap.bind(getBindAddress());
         channelFuture.syncUninterruptibly();
         channelFuture.channel();

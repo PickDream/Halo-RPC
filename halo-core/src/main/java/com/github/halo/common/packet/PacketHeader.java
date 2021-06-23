@@ -19,11 +19,11 @@ public class PacketHeader implements Serializable {
     //序列化方式
     private byte serialType;
     //包类型
-    private byte type;
+    private byte msgType;
     //状态
     private byte status;
-    //消息Id
-    private byte msgId;
+    //请求Id
+    private long requestId;
     //长度
     private int length;
 }
