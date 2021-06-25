@@ -24,6 +24,7 @@
         <netty-version>4.1.59.Final</netty-version>
         <lombok-version>1.18.18</lombok-version>
         <hession-version>4.0.63</hession-version>
+        <protostuff-version>1.6.1</protostuff-version>
     </properties>
 
     <dependencies>
@@ -41,6 +42,16 @@
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
             <version>${hession-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-core</artifactId>
+            <version>${protostuff-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-runtime</artifactId>
+            <version>${protostuff-version}</version>
         </dependency>
     </dependencies>
 

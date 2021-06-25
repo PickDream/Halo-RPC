@@ -50,7 +50,7 @@ public class HaloRpcServer extends AbstractServer {
                                 .addLast(ProtocolConstant.ENCODER_NAME,adapter.getEncodeHandler());
 
                     }
-                })
+                });
         ChannelFuture channelFuture = serverBootstrap.bind(getBindAddress());
         channelFuture.syncUninterruptibly();
         channelFuture.channel();
