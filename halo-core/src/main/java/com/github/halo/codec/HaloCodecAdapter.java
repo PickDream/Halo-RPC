@@ -31,8 +31,8 @@ public class HaloCodecAdapter {
         return this.decodeChannelHandler;
     }
 
-    public HaloCodecAdapter(String codecType){
-        this.codec = CodecFactory.getRpcCodec(codecType);
+    public HaloCodecAdapter(byte serializationCode){
+        this.codec = CodecFactory.getRpcCodec(serializationCode);
     }
 
     private class InternalEncoder extends MessageToByteEncoder<HaloRpcPacket<Object>>{
@@ -53,7 +53,7 @@ public class HaloCodecAdapter {
 
         @Override
         protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-
+            if (byteBuf.readableBytes() < )
         }
     }
 

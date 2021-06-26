@@ -6,7 +6,7 @@ package com.github.halo.codec;
  */
 public enum CodecTypeEnum {
     HESSIAN(0x10),
-    PROTOBUF(0x20),
+    PROTOSTUFF(0x20),
     JSON(0x30);
 
     private final int type;
