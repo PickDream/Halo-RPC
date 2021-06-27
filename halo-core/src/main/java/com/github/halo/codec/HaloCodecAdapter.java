@@ -53,7 +53,7 @@ public class HaloCodecAdapter {
 
         @Override
         protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-            if (byteBuf.readableBytes() < )
+//            if (byteBuf.readableBytes() < )
         }
     }
 

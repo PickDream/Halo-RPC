@@ -1,5 +1,6 @@
 package com.github.halo.remoting.netty;
 
+import com.github.halo.codec.Codec;
 import com.github.halo.common.URL;
 import com.github.halo.remoting.EndPoint;
 
@@ -27,7 +28,16 @@ public abstract class AbstractServer implements EndPoint {
 
     protected abstract void doClose() throws Throwable;
 
-//  getBindAddress
+   public InetSocketAddress getBindAddress(){
+       //todo
+       return null;
+   }
+
+   public byte getCodec(){
+       this.getURL();
+       //todo
+       return 0;
+   }
 
 
 

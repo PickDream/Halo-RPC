@@ -29,8 +29,8 @@ public class NettyServer extends AbstractServer {
         URL url = getURL();
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         bossGroup = NettyEventLoopFactory.eventLoopGroup(1,"NettyServerBoss");
-        //
-        workerGroup = NettyEventLoopFactory.eventLoopGroup();
+        // todo getEventLoopSize from config url
+        workerGroup = NettyEventLoopFactory.eventLoopGroup(10,"NettyServerWorker");
         ThreadFactory threadFactory;
 //        bossGroup = new NioEventLoopGroup(, threadFactory);
 
@@ -44,7 +44,7 @@ public class NettyServer extends AbstractServer {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         ChannelPipeline pipeline = socketChannel.pipeline();
-                        HaloCodecAdapter adapter = new HaloCodecAdapter(getCodec(),getURL());
+                        HaloCodecAdapter adapter = new HaloCodecAdapter(getCodec());
                         pipeline.addLast(ProtocolConstant.DECODER_NAME,adapter.getDecodeHandler())
                                 .addLast(ProtocolConstant.ENCODER_NAME,adapter.getEncodeHandler());
 
