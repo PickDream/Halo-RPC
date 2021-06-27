@@ -12,7 +12,7 @@
 ### 服务端
 ```java
 interface UserService{
-    //...
+    String getId();
 }
 class UserServiceImpl implements UserService{
     //...
@@ -23,6 +23,22 @@ class DemoServer{
         HaloRpcServer rpcServer = 
                 HaloServerConfig.builder().export(UserService.class,userService)
                 .bind(18001).start();
+    }
+}
+```
+### 客户端
+```java
+interface UserService{
+    String getId();
+}
+class DemoClient{
+    public static void main(String[] args) {
+        HaloRpcClient rpcClient = HaloClientConfig.builder()
+                .servers("localhost:18001")
+                .start();
+        UserService ref = rpcClient.getReference(UserService.class);
+        String s = ref.getId();
+        System.out.println(s);
     }
 }
 ```
