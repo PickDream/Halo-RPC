@@ -1,15 +1,37 @@
 # Halo-RPC
- > 一个学习性质的Java RPC框架的实现
+ > 一个学习性质的基于Netty的Java RPC框架的实现
 
 完成的功能如下
 + 支持三种序列化算法: json,protostuff,hessian
 + 支持同步调用和异步调用两种方式
-+ 
++ 支持与Spring做集成
++ 支持注册到注册中心
 
 # 开始使用
+## 基本使用
+### 服务端
+```java
+interface UserService{
+    //...
+}
+class UserServiceImpl implements UserService{
+    //...
+}
+class DemoServer{
+    public static void main(String[] args) {
+        UserService userService = new UserServiceImpl();
+        HaloRpcServer rpcServer = 
+                HaloServerConfig.builder().export(UserService.class,userService)
+                .bind(18001).start();
+    }
+}
+```
+## 异步调用
 # 扩展模块
 ## 集成Spring
 ## 集成注册中心
+### 使用Zookeeper作为注册中心
+### 使用Nacos作为注册中心
 # 模块设计
 ## 通信协议
 ```text
