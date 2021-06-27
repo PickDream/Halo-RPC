@@ -1,4 +1,4 @@
-package com.github.halo.remoting.server;
+package com.github.halo.remoting.netty;
 
 import com.github.halo.common.URL;
 import com.github.halo.remoting.EndPoint;

@@ -1,14 +1,13 @@
-package com.github.halo.remoting.server;
+package com.github.halo.remoting.netty;
 
 import com.github.halo.codec.HaloCodecAdapter;
 import com.github.halo.common.URL;
 import com.github.halo.common.constant.ProtocolConstant;
+import com.github.halo.remoting.netty.AbstractServer;
 import com.github.halo.utils.NettyEventLoopFactory;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 import java.util.concurrent.ThreadFactory;
 
@@ -16,12 +15,12 @@ import java.util.concurrent.ThreadFactory;
  *
  * @author mason.lu 2021/6/19
  */
-public class HaloRpcServer extends AbstractServer {
+public class NettyServer extends AbstractServer {
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
 
-    public HaloRpcServer(URL url) {
+    public NettyServer(URL url) {
         super(url);
     }
 

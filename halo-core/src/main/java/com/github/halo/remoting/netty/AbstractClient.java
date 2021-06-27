@@ -1,4 +1,4 @@
-package com.github.halo.remoting.client;
+package com.github.halo.remoting.netty;
 
 /**
  * @author mason.lu 2021/6/24
