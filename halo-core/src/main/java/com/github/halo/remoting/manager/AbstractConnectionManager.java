@@ -10,6 +10,18 @@ public abstract class AbstractConnectionManager {
     protected static final int RUNNING = 2;
     protected static final int CLOSE = 3;
 
+    abstract public void connect();
+
+    abstract public void updateConnectServer();
+
+    abstract public void connectAsync();
+
+    //从 注册中心获取远端的配置
+    abstract public void getConfigByRegistry();
+
+    //从
+
+
 
 
 }

@@ -8,7 +8,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 /**
  * @author mason.lu 2021/6/28
  */
-public class HaloRpcRequestHandler extends SimpleChannelInboundHandler<HaloRpcPacket<HaloRpcRequest>> {
+public class HaloRpcServerHandler extends SimpleChannelInboundHandler<HaloRpcPacket<HaloRpcRequest>> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, HaloRpcPacket<HaloRpcRequest> haloRpcRequestHaloRpcPacket) throws Exception {
 

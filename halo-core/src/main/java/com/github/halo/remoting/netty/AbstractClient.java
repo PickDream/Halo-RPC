@@ -12,19 +12,6 @@ public abstract class AbstractClient {
 
     private InetSocketAddress serverAddress;
 
-    private URL url;
 
-    protected abstract void start() throws Throwable;
-
-    protected abstract void close() throws Throwable;
-
-    public AbstractClient(URL url){
-
-    }
-
-    protected byte getCodec(){
-        //TODO
-        return 0;
-    }
 
 }

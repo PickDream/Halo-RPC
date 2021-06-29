@@ -9,4 +9,29 @@ class HaloServiceConsumer{
 class HaloServiceProvider{
     + export(Class<T> clazz,(? extends T) impl);
 }
+
+abstract class AbstractServer{
+    - localAddress
+    # {abstract} doStart();
+    # {abstract} doOpen();
+}
+
+class NettyClient
+
+class NettyServer
+
+abstract class AbstractClient{
+    {abstract}
+}
+
+abstract class AbstractConnectionManager{
+
+}
+
+NettyServer --|> AbstractServer
+
+
+NettyClient --|> AbstractClient
+
+
 @enduml
