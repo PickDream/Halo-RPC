@@ -22,9 +22,12 @@ class UserServiceImpl implements UserService{
 class DemoServer{
     public static void main(String[] args) {
         UserService userService = new UserServiceImpl();
-        HaloRpcServer rpcServer = 
-                HaloServerConfig.builder().export(UserService.class,userService)
-                .bind(18001).start();
+        HaloServerConfig.builder()
+                .port(18082)//服务端启动端口
+                .ioThreadNum(16)//NettyIO线程的数量
+                .codec(CodecTypeEnum.HESSIAN)//使用Hessian作为序列化方式
+                .export(UserService.class,userService) //暴露服务
+                .startServer();//启动服务
     }
 }
 ```

@@ -27,6 +27,7 @@
         <hession-version>4.0.63</hession-version>
         <protostuff-version>1.6.1</protostuff-version>
         <jackson.version>2.9.6</jackson.version>
+        <commons.version>3.12.0</commons.version>
     </properties>
 
     <dependencies>
@@ -75,6 +76,11 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
             <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
     </dependencies>
 

@@ -9,4 +9,6 @@ public interface ProtocolConstant {
     short HEADER_LENGTH = 18;
     String ENCODER_NAME = "halo-inner-encoder";
     String DECODER_NAME = "halo-inner-decoder";
+    String SERVER_HANDLER_NAME = "halo-server-handler";
+    String CLIENT_HANDLER_NAME = "halo-client-handler";
 }

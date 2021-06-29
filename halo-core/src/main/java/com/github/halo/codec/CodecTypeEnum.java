@@ -5,16 +5,16 @@ package com.github.halo.codec;
  * @author mason.lu 2021/6/22
  */
 public enum CodecTypeEnum {
-    HESSIAN(0x10),
-    PROTOSTUFF(0x20),
-    JSON(0x30);
+    HESSIAN((byte) 0x10),
+    PROTOSTUFF((byte) 0x20),
+    JSON((byte) 0x30);
 
-    private final int type;
-    CodecTypeEnum(int type){
+    private final byte type;
+    CodecTypeEnum(byte type){
         this.type = type;
     }
 
-    public int getType(){
+    public byte getType(){
         return type;
     }
 
