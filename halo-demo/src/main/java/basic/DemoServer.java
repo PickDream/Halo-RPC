@@ -13,7 +13,8 @@ public class DemoServer {
         UserService userService = new UserServiceImpl();
         HaloServerConfig.builder()
                 .port(18082)
-                .ioThreadNum(16)
+                .ioThreadNum(8)
+                .workerThreadNum(16)
                 .codec(CodecTypeEnum.HESSIAN)
                 .export(UserService.class,userService)
                 .startServer();

@@ -10,6 +10,7 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.socket.SocketChannel;
 
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -25,11 +26,16 @@ public class NettyServer  {
 
     private String serverAddress;
 
-    private AtomicBoolean isRunning = new AtomicBoolean(false);
+    private final AtomicBoolean isRunning = new AtomicBoolean(false);
+
+    private final ThreadPoolExecutor executor;
 
 
     public NettyServer(HaloServerConfig config){
         this.config = config;
+        int workerThreadNum = config.getWorkerThreadNum();
+        executor = new ThreadPoolExecutor(workerThreadNum,workerThreadNum , 60,
+                TimeUnit.SECONDS, new ArrayBlockingQueue<>(10000));
     }
 
 
@@ -55,7 +61,7 @@ public class NettyServer  {
                             HaloCodecAdapter adapter = new HaloCodecAdapter(config.getCodecTypeEnum().getType());
                             pipeline.addLast(ProtocolConstant.DECODER_NAME,adapter.getDecodeHandler())
                                     .addLast(ProtocolConstant.ENCODER_NAME,adapter.getEncodeHandler())
-                                    .addLast(ProtocolConstant.SERVER_HANDLER_NAME,new HaloRpcServerHandler(config.getServiceMap()));
+                                    .addLast(ProtocolConstant.SERVER_HANDLER_NAME,new HaloRpcServerHandler(config.getServiceMap(),executor));
 
                         }
                     });

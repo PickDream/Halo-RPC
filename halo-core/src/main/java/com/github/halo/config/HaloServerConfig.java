@@ -22,6 +22,8 @@ public final class HaloServerConfig {
 
     private int ioThreadNum;
 
+    private int workerThreadNum;
+
     private HaloServerConfig(){}
 
     public static HaloServerConfig builder(){
@@ -30,6 +32,11 @@ public final class HaloServerConfig {
 
     public HaloServerConfig port(int portNumber){
         this.port = portNumber;
+        return this;
+    }
+
+    public HaloServerConfig workerThreadNum(int workerThreadNum){
+        this.workerThreadNum = workerThreadNum;
         return this;
     }
 
@@ -87,7 +94,7 @@ public final class HaloServerConfig {
 
     public HaloRpcServer startServer(){
         validateConfig();
-        return null;
+        return new HaloRpcServer(this);
     }
 
     public CodecTypeEnum getCodecTypeEnum() {
@@ -104,5 +111,9 @@ public final class HaloServerConfig {
 
     public int getIoThreadNum() {
         return ioThreadNum;
+    }
+
+    public int getWorkerThreadNum() {
+        return workerThreadNum;
     }
 }

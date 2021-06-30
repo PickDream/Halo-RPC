@@ -18,10 +18,5 @@ public abstract class AbstractConnectionManager {
 
     //从 注册中心获取远端的配置
     abstract public void getConfigByRegistry();
-    
-
-
-
-
 
 }
