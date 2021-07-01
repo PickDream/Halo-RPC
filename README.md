@@ -25,6 +25,7 @@ class DemoServer{
         HaloServerConfig.builder()
                 .port(18082)//服务端启动端口
                 .ioThreadNum(16)//NettyIO线程的数量
+                .workerThreadNum(8)//工作线程的数量
                 .codec(CodecTypeEnum.HESSIAN)//使用Hessian作为序列化方式
                 .export(UserService.class,userService) //暴露服务
                 .startServer();//启动服务
@@ -48,8 +49,14 @@ class DemoClient{
 }
 ```
 ## 异步调用
+异步调用需要在`HaloRpcClient`中`getReference` 设置async参数为`true`这个时候调用会立即返回`null`但是可以通过`RpcContextHolder`获取`HaloRpcFuture`对象。
+```java
+//客户端代码
+
+```
 # 扩展模块
 ## 集成Spring
+
 ## 集成注册中心
 ### 使用Zookeeper作为注册中心
 ### 使用Nacos作为注册中心
