@@ -16,6 +16,8 @@ public class HaloRpcClient {
     //代理对象Map
     private final Map<Class<?>,Object> proxyInstanceMap = new ConcurrentHashMap<>();
 
+
+
     public <T> T getReference(Class<T> clazz){
         return getReference(clazz,false);
     }

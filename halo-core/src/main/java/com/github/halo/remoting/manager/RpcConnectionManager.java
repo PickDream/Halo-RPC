@@ -1,20 +1,13 @@
 package com.github.halo.remoting.manager;
 
-import com.github.halo.client.HaloRpcClient;
 import com.github.halo.config.HaloClientConfig;
 import com.github.halo.remoting.netty.NettyClient;
 import com.github.halo.remoting.netty.handler.HaloRpcClientHandler;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
-
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -82,19 +75,6 @@ public class RpcConnectionManager {
                     clientHandlerMap.put(remote,handler);
                 });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
