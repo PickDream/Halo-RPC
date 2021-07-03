@@ -3,12 +3,18 @@ package com.github.halo.config;
 import com.github.halo.client.HaloRpcClient;
 import com.github.halo.codec.CodecTypeEnum;
 
+import java.net.InetSocketAddress;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author mason.lu 2021/6/27
  */
 public final class HaloClientConfig {
 
     private CodecTypeEnum codecTypeEnum;
+
+    private final Set<InetSocketAddress> serverAddress = new HashSet<>();
 
     private HaloClientConfig(){};
 
@@ -19,10 +25,13 @@ public final class HaloClientConfig {
     public HaloClientConfig registryType(){
         return this;
     }
-    public HaloClientConfig registryAddress(){
+    public HaloClientConfig registryAddress(InetSocketAddress socketAddress){
         return this;
     }
-    public HaloClientConfig serverAddress(String addr){
+    public HaloClientConfig serverAddress(InetSocketAddress socketAddress){
+        if (socketAddress!=null){
+            serverAddress.add(socketAddress);
+        }
         return this;
     }
     public HaloClientConfig codec(CodecTypeEnum typeEnum){

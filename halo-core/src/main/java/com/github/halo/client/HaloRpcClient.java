@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class HaloRpcClient {
 
     //远程连接处理器
-    private RpcConnectionManager connectionManager;
+    private final RpcConnectionManager connectionManager;
 
     //代理对象Map
     private final Map<Class<?>,Object> proxyInstanceMap = new ConcurrentHashMap<>();
@@ -24,6 +24,10 @@ public class HaloRpcClient {
 
     public <T> T getReference(Class<T> clazz,boolean async){
         return null;
+    }
+
+    public HaloRpcClient(){
+        connectionManager = new RpcConnectionManager();
     }
 
 }

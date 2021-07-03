@@ -5,7 +5,7 @@ package com.github.halo.common.constant;
  */
 public interface ProtocolConstant {
     short MAGIC = 'H'&'A' << 8 | ('L'|'O');
-    short VERSION = 0x1;
+    byte VERSION = 0x1;
     short HEADER_LENGTH = 18;
     String ENCODER_NAME = "halo-inner-encoder";
     String DECODER_NAME = "halo-inner-decoder";
