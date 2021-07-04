@@ -16,7 +16,9 @@ public final class HaloClientConfig {
 
     private final Set<InetSocketAddress> serverAddress = new HashSet<>();
 
-    private HaloClientConfig(){};
+    private HaloClientConfig(){}
+
+    private long connectTimeout;
 
     public HaloRpcClient start(){
         return null;
@@ -44,5 +46,14 @@ public final class HaloClientConfig {
 
     public CodecTypeEnum getCodecTypeEnum() {
         return codecTypeEnum;
+    }
+
+    public HaloClientConfig connectTimeout(long timeout){
+        this.connectTimeout = timeout;
+        return this;
+    }
+
+    public long getConnectTimeout() {
+        return connectTimeout;
     }
 }

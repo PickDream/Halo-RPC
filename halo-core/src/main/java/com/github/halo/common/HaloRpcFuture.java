@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class HaloRpcFuture implements Future {
 
-    private String requestId;
+    private long requestId;
 
     private HaloRpcResponse response;
 
@@ -39,7 +39,7 @@ public class HaloRpcFuture implements Future {
             Executors.newFixedThreadPool(16);
 
 
-    public HaloRpcFuture(String requestId,HaloRpcRequest request){
+    public HaloRpcFuture(long requestId,HaloRpcRequest request){
         this.requestId = requestId;
         this.request = request;
         this.startTimestamp = System.currentTimeMillis();

@@ -2,6 +2,7 @@ package com.github.halo.proxy;
 
 import com.github.halo.codec.Codec;
 import com.github.halo.codec.CodecTypeEnum;
+import com.github.halo.common.HaloRpcFuture;
 import com.github.halo.common.RpcRequestHolder;
 import com.github.halo.common.constant.PacketStatus;
 import com.github.halo.common.constant.ProtocolConstant;
@@ -13,6 +14,7 @@ import com.github.halo.remoting.manager.RpcConnectionManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 引用类型代理工厂
@@ -43,8 +45,9 @@ public final class ReferenceProxyFactory {
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             HaloRpcPacket<HaloRpcRequest> packet = new HaloRpcPacket<>();
             PacketHeader packetHeader = new PacketHeader();
+            long requestId = RpcRequestHolder.REQUEST_ID_GEN.incrementAndGet();
             //设置请求头
-            packetHeader.setRequestId(RpcRequestHolder.REQUEST_ID_GEN.incrementAndGet());
+            packetHeader.setRequestId(requestId);
             packetHeader.setMagic(ProtocolConstant.MAGIC);
             packetHeader.setVersion(ProtocolConstant.VERSION);
             packetHeader.setSerialType(codecTypeEnum.getType());
@@ -59,9 +62,11 @@ public final class ReferenceProxyFactory {
             request.setParameterType(method.getParameterTypes());
             request.setParams(args);
             packet.setBody(request);
-
             //
-            return null;
+            HaloRpcFuture haloRpcFuture = new HaloRpcFuture(requestId, request);
+            RpcRequestHolder.REQUEST_MAP.put(requestId,haloRpcFuture);
+            rpcConnectionManager.sendRequest(packet);
+            return haloRpcFuture.get(timeout, TimeUnit.MILLISECONDS);
         }
 
 

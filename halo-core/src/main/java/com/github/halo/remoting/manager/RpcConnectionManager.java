@@ -1,5 +1,7 @@
 package com.github.halo.remoting.manager;
 
+import com.github.halo.common.packet.HaloRpcPacket;
+import com.github.halo.common.packet.HaloRpcRequest;
 import com.github.halo.config.HaloClientConfig;
 import com.github.halo.remoting.netty.NettyClient;
 import com.github.halo.remoting.netty.handler.HaloRpcClientHandler;
@@ -17,9 +19,6 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class RpcConnectionManager {
 
-    //连接管理器的状态
-    //WAITING -> RUNNING -> STOP
-    private volatile int STATUS;
 
     //异步建立连接的线程池
     private final ThreadPoolExecutor executor =
@@ -36,9 +35,12 @@ public class RpcConnectionManager {
 
     private final HaloClientConfig clientConfig;
 
+    private final long connectTimeoutMills;
+
     public RpcConnectionManager(HaloClientConfig config){
         eventLoopGroup = new NioEventLoopGroup(4);
         clientConfig = config;
+        this.connectTimeoutMills = config.getConnectTimeout();
     }
 
 
@@ -76,6 +78,37 @@ public class RpcConnectionManager {
                 });
     }
 
+    public void sendRequest(HaloRpcPacket<HaloRpcRequest> packet) {
+        while (clientHandlerMap.isEmpty()){
+            try {
+                boolean available = waitForHandlerAvailable();
+                if (available){
+                    //get snapshoot
+
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean waitForHandlerAvailable() throws InterruptedException{
+        lock.lock();
+        try{
+            return waitConnection.await(connectTimeoutMills,TimeUnit.MILLISECONDS);
+        }finally {
+            lock.unlock();;
+        }
+    }
+
+    public void signalForHandlerAvailable(){
+        lock.lock();
+        try{
+            waitConnection.signalAll();
+        }finally {
+            lock.unlock();
+        }
+    }
 }
 
 

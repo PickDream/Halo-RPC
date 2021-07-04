@@ -1,5 +1,6 @@
 package com.github.halo.client;
 
+import com.github.halo.config.HaloClientConfig;
 import com.github.halo.remoting.manager.RpcConnectionManager;
 
 import java.util.Map;
@@ -26,8 +27,8 @@ public class HaloRpcClient {
         return null;
     }
 
-    public HaloRpcClient(){
-        connectionManager = new RpcConnectionManager();
+    public HaloRpcClient(HaloClientConfig config){
+        connectionManager = new RpcConnectionManager(config);
     }
 
 }
