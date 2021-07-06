@@ -39,12 +39,16 @@ interface UserService{
 }
 class DemoClient{
     public static void main(String[] args) {
-        HaloRpcClient rpcClient = HaloClientConfig.builder()
-                .servers("localhost:18001")
+        //创建RPC客户端
+        HaloRpcClient haloRpcClient = HaloClientConfig.builder()
+                .serverAddress(new InetSocketAddress("localhost",18082))
+                .codec(CodecTypeEnum.HESSIAN)
+                .connectTimeout(5000L)
                 .start();
-        UserService ref = rpcClient.getReference(UserService.class);
-        String s = ref.getId();
-        System.out.println(s);
+        //创建代理对象
+        UserService reference = haloRpcClient.getReference(UserService.class);
+        //执行RPC方法
+        System.out.println(reference.getId());
     }
 }
 ```
