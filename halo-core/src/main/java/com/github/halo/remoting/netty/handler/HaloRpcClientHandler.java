@@ -1,6 +1,9 @@
 package com.github.halo.remoting.netty.handler;
 
+import com.github.halo.common.HaloRpcFuture;
+import com.github.halo.common.RpcRequestHolder;
 import com.github.halo.common.packet.HaloRpcPacket;
+import com.github.halo.common.packet.HaloRpcRequest;
 import com.github.halo.common.packet.HaloRpcResponse;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -23,7 +26,11 @@ public class HaloRpcClientHandler extends SimpleChannelInboundHandler<HaloRpcPac
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, HaloRpcPacket<HaloRpcResponse> haloRpcResponseHaloRpcPacket) throws Exception {
-        //TODO channel read
+        System.out.println("log:收到响应");
+        long requestId = haloRpcResponseHaloRpcPacket.getHeader().getRequestId();
+        HaloRpcFuture remove = RpcRequestHolder.REQUEST_MAP.remove(requestId);
+        remove.done(haloRpcResponseHaloRpcPacket.getBody());
+
 
     }
 
@@ -54,5 +61,9 @@ public class HaloRpcClientHandler extends SimpleChannelInboundHandler<HaloRpcPac
     public void closeChannel(){
         channel.writeAndFlush(Unpooled.EMPTY_BUFFER)
                 .addListener(ChannelFutureListener.CLOSE);
+    }
+
+    public void sendPacket(HaloRpcPacket<HaloRpcRequest> packet) {
+        channel.writeAndFlush(packet);
     }
 }

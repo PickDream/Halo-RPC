@@ -6,6 +6,9 @@ import com.github.halo.codec.CodecTypeEnum;
 import java.net.InetSocketAddress;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author mason.lu 2021/6/27
@@ -21,7 +24,7 @@ public final class HaloClientConfig {
     private long connectTimeout;
 
     public HaloRpcClient start(){
-        return null;
+        return new HaloRpcClient(this);
     };
 
     public HaloClientConfig registryType(){
@@ -55,5 +58,9 @@ public final class HaloClientConfig {
 
     public long getConnectTimeout() {
         return connectTimeout;
+    }
+
+    public Set<InetSocketAddress> getServerAddress() {
+        return serverAddress;
     }
 }

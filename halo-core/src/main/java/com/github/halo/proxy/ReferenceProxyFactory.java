@@ -14,6 +14,7 @@ import com.github.halo.remoting.manager.RpcConnectionManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +23,16 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ReferenceProxyFactory {
 
-    public class RpcInvockerProxy implements InvocationHandler{
+    @SuppressWarnings({"unchecked"})
+    public static <T> T getProxy(Class<T> interfaceClass,String version,CodecTypeEnum codecTypeEnum,
+                                 long timeout,RpcConnectionManager manager){
+        //todo 检查是否为接口
+        return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(),
+                new Class<?>[]{interfaceClass},
+                new RpcInvockerProxy(version,timeout,codecTypeEnum,manager));
+    }
+
+    public static class RpcInvockerProxy implements InvocationHandler{
         //
         private final String serviceVersion;
         //超时时间

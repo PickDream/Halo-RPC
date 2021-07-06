@@ -19,11 +19,6 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class RpcConnectionManager {
 
-
-    //异步建立连接的线程池
-    private final ThreadPoolExecutor executor =
-            new ThreadPoolExecutor(8, 8, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(64));
-
     private final Map<InetSocketAddress, HaloRpcClientHandler> clientHandlerMap =
             new ConcurrentHashMap<>();
 
@@ -75,24 +70,26 @@ public class RpcConnectionManager {
     private void doConnect(InetSocketAddress remote){
         new NettyClient(eventLoopGroup).connect(remote,clientConfig.getCodecTypeEnum(),(handler)->{
                     clientHandlerMap.put(remote,handler);
+                    signalForHandlerAvailable();
                 });
     }
 
     public void sendRequest(HaloRpcPacket<HaloRpcRequest> packet) {
-        while (clientHandlerMap.isEmpty()){
+        Collection<HaloRpcClientHandler> handlers = clientHandlerMap.values();
+        while (handlers.isEmpty()){
             try {
-                boolean available = waitForHandlerAvailable();
-                if (available){
-                    //get snapshoot
-
-                }
+                waitForHandlerAvailable();
+                handlers = clientHandlerMap.values();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        //TODO 这里会选择合适的Handler去请求
+        HaloRpcClientHandler haloRpcClientHandler = handlers.stream().findFirst().get();
+        haloRpcClientHandler.sendPacket(packet);
     }
 
-    public boolean waitForHandlerAvailable() throws InterruptedException{
+    private boolean waitForHandlerAvailable() throws InterruptedException{
         lock.lock();
         try{
             return waitConnection.await(connectTimeoutMills,TimeUnit.MILLISECONDS);
@@ -101,7 +98,7 @@ public class RpcConnectionManager {
         }
     }
 
-    public void signalForHandlerAvailable(){
+    private void signalForHandlerAvailable(){
         lock.lock();
         try{
             waitConnection.signalAll();

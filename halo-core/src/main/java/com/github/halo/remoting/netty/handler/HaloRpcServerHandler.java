@@ -28,24 +28,37 @@ public class HaloRpcServerHandler extends SimpleChannelInboundHandler<HaloRpcPac
     }
 
     @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        super.channelRegistered(ctx);
+        System.out.println("有连接注册");
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        super.channelActive(ctx);
+        System.out.println("有连接活跃");
+    }
+
+    @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, HaloRpcPacket<HaloRpcRequest> requestPacket) throws Exception {
         executor.submit(()->{
             //创建ResponsePacket
             HaloRpcPacket<HaloRpcResponse> responsePacket = new HaloRpcPacket<>();
             HaloRpcResponse response = new HaloRpcResponse();
-            PacketHeader header = responsePacket.getHeader();
+            PacketHeader header = requestPacket.getHeader();
             header.setMsgType((byte)MsgType.RESPONSE.getType());
             try{
                 Object result = handle(requestPacket.getBody());
                 response.setData(result);
                 header.setStatus((byte) PacketStatus.SUCCESS.getCode());
                 responsePacket.setBody(response);
+                responsePacket.setHeader(header);
             }catch (Throwable throwable){
                 header.setStatus((byte) PacketStatus.FAILURE.getCode());
                 response.setMessage(throwable.toString());
                 System.err.println("process request error ,request id="+header.getRequestId());
             }
-            channelHandlerContext.writeAndFlush(null);
+            channelHandlerContext.writeAndFlush(responsePacket);
         });
     }
 

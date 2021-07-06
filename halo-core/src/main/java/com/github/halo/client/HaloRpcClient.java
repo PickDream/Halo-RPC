@@ -1,6 +1,8 @@
 package com.github.halo.client;
 
+import com.github.halo.codec.CodecTypeEnum;
 import com.github.halo.config.HaloClientConfig;
+import com.github.halo.proxy.ReferenceProxyFactory;
 import com.github.halo.remoting.manager.RpcConnectionManager;
 
 import java.util.Map;
@@ -23,12 +25,19 @@ public class HaloRpcClient {
         return getReference(clazz,false);
     }
 
+    @SuppressWarnings({"unchecked"})
     public <T> T getReference(Class<T> clazz,boolean async){
-        return null;
+        if (proxyInstanceMap.containsKey(clazz)){
+            return (T) proxyInstanceMap.get(clazz);
+        }
+        T proxy = ReferenceProxyFactory.getProxy(clazz, "1.0", CodecTypeEnum.HESSIAN, 10000L, connectionManager);
+        proxyInstanceMap.put(clazz,proxy);
+        return proxy;
     }
 
     public HaloRpcClient(HaloClientConfig config){
         connectionManager = new RpcConnectionManager(config);
+        connectionManager.connect(config.getServerAddress());
     }
 
 }

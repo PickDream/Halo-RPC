@@ -13,10 +13,16 @@ import java.net.InetSocketAddress;
 public class DemoClient {
     public static void main(String[] args) {
         HaloRpcClient haloRpcClient = HaloClientConfig.builder()
-                .serverAddress(new InetSocketAddress("localhost",18301))
+                .serverAddress(new InetSocketAddress("localhost",18082))
                 .codec(CodecTypeEnum.HESSIAN)
+                .connectTimeout(5000L)
                 .start();
         UserService reference = haloRpcClient.getReference(UserService.class);
-        reference.getId();
+        try {
+
+            System.out.println(reference.getId());
+        }catch (Throwable e){
+
+        }
     }
 }
