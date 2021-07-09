@@ -130,7 +130,7 @@ public class HaloRpcFuture implements Future {
         }
     }
 
-    public HaloRpcFuture addCallBack(RpcCallback callback){
+    public <T> HaloRpcFuture addCallBack(RpcCallback<T> callback){
         if (Objects.isNull(callback)){
             throw new NullPointerException("rpc call back must not null!");
         }
@@ -153,7 +153,7 @@ public class HaloRpcFuture implements Future {
             @Override
             public void run() {
                 if (resp.getThrowable() == null){
-                    callback.handleSuccess(resp);
+                    callback.handleSuccess(resp.getData());
                 }else {
                     callback.handleFailure(resp.getThrowable());
                 }
@@ -164,7 +164,7 @@ public class HaloRpcFuture implements Future {
     private void executeCallBacks(){
         lock.lock();
         try{
-            for (final RpcCallback peddingCallback : peddingCallbacks) {
+            for (final RpcCallback<?> peddingCallback : peddingCallbacks) {
                 executeCallBack(peddingCallback);
             }
         }finally {

@@ -30,7 +30,7 @@ public class HaloRpcClient {
         if (proxyInstanceMap.containsKey(clazz)){
             return (T) proxyInstanceMap.get(clazz);
         }
-        T proxy = ReferenceProxyFactory.getProxy(clazz, "1.0", CodecTypeEnum.HESSIAN, 10000L, connectionManager);
+        T proxy = ReferenceProxyFactory.getProxy(clazz, "1.0", CodecTypeEnum.HESSIAN, 10000L, connectionManager,async);
         proxyInstanceMap.put(clazz,proxy);
         return proxy;
     }

@@ -3,6 +3,7 @@ package com.github.halo.proxy;
 import com.github.halo.codec.Codec;
 import com.github.halo.codec.CodecTypeEnum;
 import com.github.halo.common.HaloRpcFuture;
+import com.github.halo.common.RpcContext;
 import com.github.halo.common.RpcRequestHolder;
 import com.github.halo.common.constant.PacketStatus;
 import com.github.halo.common.constant.ProtocolConstant;
@@ -25,11 +26,11 @@ public final class ReferenceProxyFactory {
 
     @SuppressWarnings({"unchecked"})
     public static <T> T getProxy(Class<T> interfaceClass,String version,CodecTypeEnum codecTypeEnum,
-                                 long timeout,RpcConnectionManager manager){
+                                 long timeout,RpcConnectionManager manager,boolean async){
         //todo 检查是否为接口
         return (T) Proxy.newProxyInstance(interfaceClass.getClassLoader(),
                 new Class<?>[]{interfaceClass},
-                new RpcInvockerProxy(version,timeout,codecTypeEnum,manager));
+                new RpcInvockerProxy(version,timeout,codecTypeEnum,manager,async));
     }
 
     public static class RpcInvockerProxy implements InvocationHandler{
@@ -42,13 +43,16 @@ public final class ReferenceProxyFactory {
 
         private final CodecTypeEnum codecTypeEnum;
 
+        private final boolean async;
+
         public RpcInvockerProxy(String serviceVersion,long timeout,
                                 CodecTypeEnum codecTypeEnum,
-                                RpcConnectionManager connectionManager){
+                                RpcConnectionManager connectionManager,boolean async){
             this.codecTypeEnum = codecTypeEnum;
             this.serviceVersion = serviceVersion;
             this.timeout = timeout;
             this.rpcConnectionManager = connectionManager;
+            this.async = async;
         }
 
         @Override
@@ -76,7 +80,12 @@ public final class ReferenceProxyFactory {
             HaloRpcFuture haloRpcFuture = new HaloRpcFuture(requestId, request);
             RpcRequestHolder.REQUEST_MAP.put(requestId,haloRpcFuture);
             rpcConnectionManager.sendRequest(packet);
-            return haloRpcFuture.get(timeout, TimeUnit.MILLISECONDS);
+            if (!async){
+                return haloRpcFuture.get(timeout, TimeUnit.MILLISECONDS);
+            }else {
+                RpcContext.putFuture(haloRpcFuture);
+            }
+            return null;
         }
 
 
