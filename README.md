@@ -1,11 +1,11 @@
 # Halo-RPC
  > 一个学习性质的基于Netty的Java RPC框架的实现
 
-完成的功能如下
-+ 支持三种序列化算法: json,protostuff,hessian
-+ 支持同步调用和异步调用两种方式
-+ 支持与Spring做集成
-+ 支持注册到注册中心
+预计完成的功能如下
++ 支持三种序列化算法: json,protostuff,hessian ✅
++ 支持同步调用和异步调用两种方式 ✅
++ 支持与Spring做集成 (进行中)
++ 支持注册到注册中心 
 + 实现常见的负载均衡策略，如 轮询，权重轮询，一致性哈希
 + 实现心跳机制
 
@@ -89,9 +89,13 @@ public class DemoAsyncClient {
 ## 集成Spring
 
 ## 集成注册中心
+
 ### 使用Zookeeper作为注册中心
+
 ### 使用Nacos作为注册中心
+
 ### 使用Euruka作为注册中心
+
 # 模块设计
 ## 通信协议
 ```text
