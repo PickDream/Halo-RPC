@@ -1,4 +1,4 @@
-package com.github.halo.spring.support;
+package com.github.halo.spring;
 
 /**
  * @author mason.lu 2021/6/28
