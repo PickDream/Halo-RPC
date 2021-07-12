@@ -11,4 +11,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface HaloRpcReference {
+
+    String serviceVersion() default "1.0";
+
+    long timeout() default 5000;
+
+
 }
