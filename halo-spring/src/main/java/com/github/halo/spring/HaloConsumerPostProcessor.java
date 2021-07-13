@@ -51,6 +51,14 @@ public class HaloConsumerPostProcessor implements ApplicationContextAware, BeanC
     private void parseRpcReference(Field field){
         HaloRpcReference annotation = AnnotationUtils.getAnnotation(field, HaloRpcReference.class);
         if (annotation != null){
+            BeanDefinitionBuilder builder =
+                    BeanDefinitionBuilder.genericBeanDefinition(RpcReferenceBean.class);
+            builder.setInitMethodName(RpcReferenceBean.INIT_METHOD_NAME);
+            builder.addPropertyValue("interfaceClass",field.getType());
+            builder.addPropertyValue("serviceVersion",annotation.serviceVersion());
+            builder.addPropertyValue("timeout",annotation.timeout());
+
+            BeanDefinition beanDefinition = builder.getBeanDefinition();
 
         }
     }
