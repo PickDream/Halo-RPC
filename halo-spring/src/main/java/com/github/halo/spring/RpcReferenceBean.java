@@ -1,8 +1,10 @@
 package com.github.halo.spring;
 
+import com.github.halo.proxy.ReferenceProxyFactory;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
+ * RpcReferenceBeanFactory
  * @author mason.lu 2021/6/28
  */
 public class RpcReferenceBean implements FactoryBean<Object> {
@@ -15,6 +17,8 @@ public class RpcReferenceBean implements FactoryBean<Object> {
 
     private long timeout;
 
+    private boolean async;
+
     private Object result;
 
     @Override
@@ -23,7 +27,7 @@ public class RpcReferenceBean implements FactoryBean<Object> {
     }
 
     public void init(){
-
+//        ReferenceProxyFactory.getProxy()
     }
 
     @Override
@@ -41,5 +45,9 @@ public class RpcReferenceBean implements FactoryBean<Object> {
 
     public void setTimeout(long timeout) {
         this.timeout = timeout;
+    }
+
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 }
