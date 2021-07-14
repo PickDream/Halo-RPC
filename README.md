@@ -86,7 +86,8 @@ public class DemoAsyncClient {
 }
 ```
 # 扩展模块
-## 集成Spring
+## 集成SpringBoot
+实现了基本的SpringBootStarter,使用者可以直接在Spring-Boot环境下引入Starter进行配置并使用注解进行暴露服务和引用服务
 
 ## 集成注册中心
 
